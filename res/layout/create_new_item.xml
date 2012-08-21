@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10.0dp"
+    android:paddingTop="5.0dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+    <Button
+        android:id="@+id/create_new_item_icon" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_icon"
+        />
+    <TextView 
+        android:id="@+id/create_new_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        style="@style/text_collect_left"
+        />
+    <EditText
+        android:id="@+id/create_new_item_text"
+        android:layout_marginLeft="5.0dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        />
+</LinearLayout>

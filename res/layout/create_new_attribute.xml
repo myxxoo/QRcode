@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10.0dp"
+        android:gravity="center_vertical"
+        android:background="#999"
+        >
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type_choice"
+            style="@style/text_collect_top"
+            />
+        <Spinner 
+            android:id="@+id/create_new_attribute_spinner"
+            android:layout_marginLeft="10.0dp"
+            android:layout_width="150.0dp"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+<!-- 	<ListView 
+	    android:id="@+id/create_new_attribute_list"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1"
+	    android:dividerHeight="0dp"
+	    android:cacheColorHint="#00000000"
+	    android:descendantFocusability="beforeDescendants"
+	    ></ListView> -->
+	<ScrollView 
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    >
+        <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"	
+		    android:orientation="vertical"
+		    >
+		    <LinearLayout
+			    android:id="@+id/create_new_attribute_list"
+			    android:layout_width="fill_parent"
+			    android:layout_height="150dp"
+			    android:orientation="vertical"
+			    android:layout_weight="1"
+			    >
+			    
+			</LinearLayout>
+			<Button 
+			    android:id="@+id/create_new_attribute_save"
+			    android:layout_width="100.0dp"
+			    android:layout_height="50.0dp"
+			    android:layout_marginTop="10.0dp"
+			    android:text="@string/save"
+			    android:layout_gravity="bottom|right"
+			    android:background="@drawable/bg_button_deep_gray"
+			    />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <TextView 
+	    android:layout_width="fill_parent"
+	    android:layout_height="50.0dp"
+	    android:background="@drawable/ui_head_background"
+	    android:text="@string/my_collect"
+	    style="@style/text_title"
+	    android:paddingTop="5.0dp"
+	    android:gravity="center"
+	    />
+	<TabHost android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:id="@android:id/tabhost"
+	    >
+	    <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:background="@color/deep_gray"
+		    android:orientation="vertical">
+		    <TabWidget
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/bg_collect_top_select"
+				android:id="@android:id/tabs"
+				/>
+			<FrameLayout
+				android:layout_width="fill_parent"
+				android:layout_height="0dp"
+				android:id="@android:id/tabcontent"
+				android:layout_weight="1">
+			</FrameLayout>
+	    </LinearLayout>
+	</TabHost>
+</LinearLayout>
