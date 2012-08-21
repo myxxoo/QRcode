@@ -95,6 +95,13 @@ public class DataHelper {
     	return map;
     }
     
+    public long putUser(String name,String pass){
+    	ContentValues values = new ContentValues();
+    	values.put("USERNAME", name);
+    	values.put("PASSWORD", pass);
+    	return db.insert(SqliteHelper.TB_USER, null, values);
+    }
+    
     public int checkLogin(String username,String password){
     	int r = 0;
     	Cursor cursor = db.query(SqliteHelper.TB_USER, null, "USERNAME=? AND PASSWORD=?", new String[]{username,password}, null, null, null);

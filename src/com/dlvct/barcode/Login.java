@@ -35,6 +35,7 @@ public class Login extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
 		dataHelper = new DataHelper(this);
+		dataHelper.putUser("a", "a");
 		initView();
 		handler = new Handler(){
 			@Override
@@ -104,7 +105,7 @@ public class Login extends Activity {
 				Toast.makeText(Login.this, "登陆成功", Toast.LENGTH_SHORT).show();
 				dataHelper.saveSetting(userid, isChecked ? 1 : 0);
 				dataHelper.Close();
-				Intent submit = new Intent(Login.this, Barcode.class);
+				Intent submit = new Intent(Login.this, CaptureActivity.class);
 				startActivity(submit);
 				finish();
 				break;

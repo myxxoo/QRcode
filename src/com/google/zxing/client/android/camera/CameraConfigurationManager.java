@@ -25,9 +25,10 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.dlvct.barcode.PreferencesActivity;
 
 import java.util.Collection;
+
+import com.dlvct.barcode.PreferencesActivity;
 
 /**
  * A class which deals with reading, parsing, and setting the camera parameters which are used to
