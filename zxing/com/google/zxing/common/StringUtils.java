@@ -70,17 +70,21 @@ public final class StringUtils {
     // that it's UTF-8.
     int length = bytes.length;
     boolean canBeISO88591 = true;
-    boolean canBeShiftJIS = true;
+//    boolean canBeShiftJIS = true;
     boolean canBeUTF8 = true;
+    
+//    boolean canBeGBK = false;
+    
     int utf8BytesLeft = 0;
     int maybeDoubleByteCount = 0;
     int maybeSingleByteKatakanaCount = 0;
     boolean sawLatin1Supplement = false;
     boolean sawUTF8Start = false;
     boolean lastWasPossibleDoubleByteStart = false;
+//    boolean sawGBKStart = false;
 
     for (int i = 0;
-         i < length && (canBeISO88591 || canBeShiftJIS || canBeUTF8);
+         i < length && (canBeISO88591  || canBeUTF8);
          i++) {
 
       int value = bytes[i] & 0xFF;
@@ -103,7 +107,7 @@ public final class StringUtils {
           }
         }
       }
-
+      
       // ISO-8859-1 stuff
 
       if ((value == 0xC2 || value == 0xC3) && i < length - 1) {
@@ -119,68 +123,23 @@ public final class StringUtils {
       if (value >= 0x7F && value <= 0x9F) {
         canBeISO88591 = false;
       }
-
-      // Shift_JIS stuff
-
-      if (value >= 0xA1 && value <= 0xDF) {
-        // count the number of characters that might be a Shift_JIS single-byte Katakana character
-        if (!lastWasPossibleDoubleByteStart) {
-          maybeSingleByteKatakanaCount++;
-        }
-      }
-      if (!lastWasPossibleDoubleByteStart &&
-          ((value >= 0xF0 && value <= 0xFF) || value == 0x80 || value == 0xA0)) {
-        canBeShiftJIS = false;
-      }
-      if ((value >= 0x81 && value <= 0x9F) || (value >= 0xE0 && value <= 0xEF)) {
-        // These start double-byte characters in Shift_JIS. Let's see if it's followed by a valid
-        // second byte.
-        if (lastWasPossibleDoubleByteStart) {
-          // If we just checked this and the last byte for being a valid double-byte
-          // char, don't check starting on this byte. If this and the last byte
-          // formed a valid pair, then this shouldn't be checked to see if it starts
-          // a double byte pair of course.
-          lastWasPossibleDoubleByteStart = false;
-        } else {
-          // ... otherwise do check to see if this plus the next byte form a valid
-          // double byte pair encoding a character.
-          lastWasPossibleDoubleByteStart = true;
-          if (i >= bytes.length - 1) {
-            canBeShiftJIS = false;
-          } else {
-            int nextValue = bytes[i + 1] & 0xFF;
-            if (nextValue < 0x40 || nextValue > 0xFC) {
-              canBeShiftJIS = false;
-            } else {
-              maybeDoubleByteCount++;
-            }
-            // There is some conflicting information out there about which bytes can follow which in
-            // double-byte Shift_JIS characters. The rule above seems to be the one that matches practice.
-          }
-        }
-      } else {
-        lastWasPossibleDoubleByteStart = false;
-      }
     }
     if (utf8BytesLeft > 0) {
       canBeUTF8 = false;
     }
 
-    // Easy -- if assuming Shift_JIS and no evidence it can't be, done
-    if (canBeShiftJIS && ASSUME_SHIFT_JIS) {
-      return SHIFT_JIS;
-    }
     if (canBeUTF8 && sawUTF8Start) {
       return UTF8;
+    }
+    
+    if(isGB2312(bytes)){
+  	  return GB2312;
     }
     // Distinguishing Shift_JIS and ISO-8859-1 can be a little tough. The crude heuristic is:
     // - If we saw
     //   - at least 3 bytes that starts a double-byte value (bytes that are rare in ISO-8859-1), or
     //   - over 5% of bytes could be single-byte Katakana (also rare in ISO-8859-1),
     // - and, saw no sequences that are invalid in Shift_JIS, then we conclude Shift_JIS
-    if (canBeShiftJIS && (maybeDoubleByteCount >= 3 || 20 * maybeSingleByteKatakanaCount > length)) {
-      return SHIFT_JIS;
-    }
     // Otherwise, we default to ISO-8859-1 unless we know it can't be
     if (!sawLatin1Supplement && canBeISO88591) {
       return ISO88591;
@@ -188,5 +147,21 @@ public final class StringUtils {
     // Otherwise, we take a wild guess with platform encoding
     return PLATFORM_DEFAULT_ENCODING;
   }
+  
+  private static boolean isGB2312(byte[] b) {
+      boolean isGB2312 = false;
+      for (int i = 0; i < b.length-1 && b.length%2 == 0; i=i+2) {
+              int[] ints = new int[2];
+              ints[0] = b[i] & 0xff;
+              ints[1] = b[i+1] & 0xff;
+              if (ints[0] >= 0x81 && ints[0] <= 0xFE && ints[1] >= 0x40
+                      && ints[1] <= 0xFE) {
+                  isGB2312 = true;
+                  break;
+              }
+      }
+      return isGB2312;
+}
+  
 
 }

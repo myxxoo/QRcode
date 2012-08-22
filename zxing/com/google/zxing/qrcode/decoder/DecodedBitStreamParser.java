@@ -223,6 +223,7 @@ final class DecodedBitStreamParser {
       // Shift_JIS -- without anything like an ECI designator to
       // give a hint.
       encoding = StringUtils.guessEncoding(readBytes, hints);
+      System.out.println("encoding:"+encoding);
     } else {
       encoding = currentCharacterSetECI.name();
     }

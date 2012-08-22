@@ -9,7 +9,7 @@ public class MessyCode {
         boolean is_cN=false;  
         try {  
             System.out.println("------------"+s);  
-            UTF_Str=new String(s.getBytes("ISO-8859-1"),"UTF-8");  
+            UTF_Str=new String(s.getBytes("GBK"),"UTF-8");  
             System.out.println("这是转了UTF-8的"+UTF_Str);  
             is_cN=isChineseCharacter(UTF_Str);  
             //防止有人特意使用乱码来生成二维码来判断的情况  

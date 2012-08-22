@@ -227,7 +227,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     source = IntentSource.NONE;
     decodeFormats = null;
-    characterSet = "ISO-8859-1";
+    characterSet = "UTF-8";
 
     if (intent != null) {
 
@@ -275,7 +275,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       }
 
       characterSet = intent.getStringExtra(Intents.Scan.CHARACTER_SET);
-
+//      characterSet = "GB2312";
     }
   }
   
@@ -583,7 +583,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     TextView contentsTextView = (TextView) findViewById(R.id.contents_text_view);
     CharSequence displayContents = resultHandler.getDisplayContents();
     
-    contentsTextView.setText("转换后："+MessyCode.toNormal(displayContents.toString()));
+//    contentsTextView.setText("转换后："+MessyCode.toNormal(displayContents.toString()));
+    contentsTextView.setText(displayContents);
     // Crudely scale betweeen 22 and 32 -- bigger font for shorter text
     int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
     contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
