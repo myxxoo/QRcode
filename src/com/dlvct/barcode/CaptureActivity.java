@@ -17,6 +17,7 @@
 package com.dlvct.barcode;
 
 import com.dlvct.barcode.R;
+import com.dlvct.utils.MessyCode;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
@@ -226,7 +227,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     source = IntentSource.NONE;
     decodeFormats = null;
-    characterSet = null;
+    characterSet = "ISO-8859-1";
 
     if (intent != null) {
 
@@ -414,6 +415,11 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         savedResultToShow = result;
       }
       if (savedResultToShow != null) {
+    	  
+    	System.out.println("savedResultToShow:"+savedResultToShow);
+    	String s = savedResultToShow.getText();
+    	System.out.println("savedResultToShow.getText():"+savedResultToShow);
+    	
         Message message = Message.obtain(handler, R.id.decode_succeeded, savedResultToShow);
         handler.sendMessage(message);
       }
@@ -452,6 +458,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     inactivityTimer.onActivity();
     lastResult = rawResult;
     ResultHandler resultHandler = ResultHandlerFactory.makeResultHandler(this, rawResult);
+    //这里乱码
+    
     historyManager.addHistoryItem(rawResult, resultHandler);
 
     if (barcode == null) {
@@ -574,7 +582,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     TextView contentsTextView = (TextView) findViewById(R.id.contents_text_view);
     CharSequence displayContents = resultHandler.getDisplayContents();
-    contentsTextView.setText(displayContents);
+    
+    contentsTextView.setText("转换后："+MessyCode.toNormal(displayContents.toString()));
     // Crudely scale betweeen 22 and 32 -- bigger font for shorter text
     int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
     contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);

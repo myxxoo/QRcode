@@ -88,9 +88,13 @@ public final class CaptureActivityHandler extends Handler {
         Log.d(TAG, "Got decode succeeded message");
         state = State.SUCCESS;
         Bundle bundle = message.getData();
+//        String s = message.obj.toString();
+//        System.out.println("乱码处理前:"+s);
+        
         Bitmap barcode = bundle == null ? null :
             (Bitmap) bundle.getParcelable(DecodeThread.BARCODE_BITMAP);
         activity.handleDecode((Result) message.obj, barcode);
+        //这里乱码处理
         break;
       case R.id.decode_failed:
         // We're decoding as fast as possible, so when one decode fails, start another.
