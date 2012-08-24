@@ -61,6 +61,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -70,6 +71,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -140,6 +142,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   private HistoryManager historyManager;
   private InactivityTimer inactivityTimer;
   private BeepManager beepManager;
+  private int screenWidth = 0;
+  private int screenHeight = 0;
 
   private final DialogInterface.OnClickListener aboutListener =
       new DialogInterface.OnClickListener() {
@@ -176,6 +180,11 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     historyManager.trimHistory();
     inactivityTimer = new InactivityTimer(this);
     beepManager = new BeepManager(this);
+    
+    DisplayMetrics displaysMetrics = new DisplayMetrics();
+	getWindowManager().getDefaultDisplay().getMetrics( displaysMetrics );
+	screenWidth = displaysMetrics.widthPixels;
+	screenHeight = displaysMetrics.heightPixels;
 
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
@@ -194,6 +203,10 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
     viewfinderView.setCameraManager(cameraManager);
+//    LayoutParams p = viewfinderView.getLayoutParams();
+////    LayoutParams p = new LayoutParams(screenWidth-80,screenHeight-100);
+//    p.width = screenWidth-80;
+//    p.height = screenHeight-100;
 
     resultView = findViewById(R.id.result_view);
     statusView = (TextView) findViewById(R.id.status_view);
